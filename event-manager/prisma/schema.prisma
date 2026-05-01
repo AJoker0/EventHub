@@ -2,20 +2,18 @@
 
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
   provider = "sqlite"
- 
 }
 
 // user model required for authentication 
 model User {
-  id        String    @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String?
-  email     String @unique
-  password  String  // store hashed password, no plain-text
+  email     String   @unique
+  password  String // store hashed password, no plain-text
   events    Event[] // Relation: user can create multiple events
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -33,10 +31,10 @@ model Event {
   ticketPrice Float
 
   // relation: every  event belongs to the user who created it
-  creatorId   String
-  creator     User      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId String
+  creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)
 
   // mandatory  tracking fields
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
