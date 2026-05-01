@@ -1,10 +1,9 @@
 // src//app/api/register/route.ts
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
-// initialize Prisma Client
-const prisma = new PrismaClient();
+
 
 export async function POST(request: Request) {
     try {
@@ -48,10 +47,14 @@ export async function POST(request: Request) {
             { message: "User created successfully", user: { id: newUser.id, email: newUser.email } },
             { status: 201 }
         );
-    } catch (error) {
-        return NextResponse.json(
-            { error: "Something went wrong during registration" },
-            { status: 500 }
-        );
-    }
+    
+  } catch (error) {
+    
+    console.error("REGISTRATION ERROR:", error); 
+    
+    return NextResponse.json(
+      { error: "Something went wrong during registration" }, 
+      { status: 500 }
+    );
+  }
 }
