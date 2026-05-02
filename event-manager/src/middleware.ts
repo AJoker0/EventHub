@@ -1,7 +1,11 @@
 // src/middleware.ts
-export { default } from "next-auth/middleware"
+import { withAuth } from "next-auth/middleware";
 
-// Require authentication for all routes inside /events
+
+export default withAuth(function middleware(req) {
+  
+});
+
 export const config = {
   matcher: ["/events/:path*"]
-}
+};

@@ -11,7 +11,20 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(""); // clear previous errors
+    setError(""); // Clear previous errors
+
+    // --- NEW: Strict Frontend Validation ---
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address format.");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+    // ---------------------------------------
 
     const res = await fetch("/api/register", {
       method: "POST",
@@ -20,7 +33,6 @@ export default function RegisterPage() {
     });
 
     if (res.ok) {
-      // redirect authenticated/registered users appropriately
       router.push("/login"); 
     } else {
       const data = await res.json();
@@ -33,8 +45,9 @@ export default function RegisterPage() {
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8 text-black">
         <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
         
+        {/* Error message block */}
         {error && (
-          <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">
+          <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm text-center">
             {error}
           </div>
         )}
@@ -43,9 +56,7 @@ export default function RegisterPage() {
           <div>
             <label className="block text-sm font-medium mb-1">Name</label>
             <input
-              type="text"
-              required
-              className="w-full border rounded p-2 text-black"
+              type="text" required className="w-full border rounded p-2 text-black"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
@@ -53,9 +64,7 @@ export default function RegisterPage() {
           <div>
             <label className="block text-sm font-medium mb-1">Email</label>
             <input
-              type="email"
-              required
-              className="w-full border rounded p-2 text-black"
+              type="email" required className="w-full border rounded p-2 text-black"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
@@ -63,17 +72,13 @@ export default function RegisterPage() {
           <div>
             <label className="block text-sm font-medium mb-1">Password</label>
             <input
-              type="password"
-              required
-              className="w-full border rounded p-2 text-black"
+              type="password" required className="w-full border rounded p-2 text-black"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
+            <p className="text-xs text-gray-500 mt-1">Must be at least 6 characters.</p>
           </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white rounded p-2 hover:bg-blue-700 transition"
-          >
+          <button type="submit" className="w-full bg-blue-600 text-white rounded p-2 hover:bg-blue-700 transition">
             Create Account
           </button>
         </form>
