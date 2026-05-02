@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -34,7 +35,10 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center p-24">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8 text-black">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <Link href="/" className="text-xs text-gray-500 hover:underline">
+          ← Back
+        </Link>
+        <h2 className="text-2xl font-bold mb-6 text-center mt-4">Login</h2>
         
         {error && (
           <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm text-center">

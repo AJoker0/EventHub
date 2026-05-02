@@ -11,12 +11,15 @@ export default async function EventsListPage() {
   });
 
   return (
-    <div className="max-w-5xl mx-auto p-8">
-      <div className="flex justify-between items-center mb-8 text-white">
-        <h1 className="text-4xl font-bold">All Events</h1>
+    <div className="max-w-6xl mx-auto p-8">
+      <div className="flex justify-between items-center mb-10">
+        <div>
+          <h1 className="text-4xl font-bold text-white">Events</h1>
+          <p className="text-gray-300 mt-1">Discover and manage events</p>
+        </div>
         <Link 
           href="/events/create" 
-          className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition"
+          className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition font-semibold"
         >
           + Create Event
         </Link>
@@ -24,31 +27,34 @@ export default async function EventsListPage() {
 
       {/* Show message if database is empty */}
       {events.length === 0 ? (
-        <div className="bg-gray-800 p-8 rounded-lg text-center text-gray-300">
-          <p>No events found. Be the first to create one!</p>
+        <div className="bg-gray-800 p-12 rounded-lg text-center text-gray-300">
+          <p className="text-lg mb-4">No events found yet.</p>
+          <Link href="/events/create" className="text-green-400 hover:underline">
+            Create the first event →
+          </Link>
         </div>
       ) : (
         // Display all items in a clear layout grid
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.map((event) => (
-            <div key={event.id} className="bg-white p-6 rounded-lg shadow-md text-black flex flex-col justify-between">
+            <div key={event.id} className="bg-gray-800 hover:bg-gray-750 p-6 rounded-lg shadow-md text-white flex flex-col justify-between transition-colors border border-gray-700">
               <div>
-                <h2 className="text-2xl font-bold mb-2">{event.title}</h2>
-                <p className="text-gray-600 mb-4 line-clamp-2">{event.description}</p>
+                <h2 className="text-xl font-bold mb-2">{event.title}</h2>
+                <p className="text-gray-300 mb-4 line-clamp-2 text-sm">{event.description}</p>
                 
-                <div className="text-sm font-medium text-gray-700 mb-4 space-y-1">
-                  <p>📍 Venue: {event.venue}</p>
-                  <p>📅 Date: {new Date(event.date).toLocaleDateString()}</p>
-                  <p>💰 Price: ${event.ticketPrice.toFixed(2)}</p>
+                <div className="text-sm text-gray-400 space-y-2 mb-6">
+                  <p>📍 {event.venue}</p>
+                  <p>📅 {new Date(event.date).toLocaleDateString()}</p>
+                  <p>💰 ${event.ticketPrice.toFixed(2)}</p>
                 </div>
               </div>
 
               {/* Link to the Details page (Dynamic Route) */}
               <Link 
                 href={`/events/${event.id}`}
-                className="inline-block mt-4 text-center bg-blue-100 text-blue-700 py-2 rounded font-semibold hover:bg-blue-200 transition"
+                className="inline-block text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded font-semibold transition"
               >
-                View Details &rarr;
+                View Details →
               </Link>
             </div>
           ))}

@@ -2,6 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
+import Link from "next/link";
 import EditForm from "./EditForm";
 
 export default async function EditEventPage({
@@ -42,5 +43,14 @@ export default async function EditEventPage({
   }
 
   // 4. Pass the data to our client form component
-  return <EditForm event={event} />;
+  return (
+    <div className="max-w-2xl mx-auto p-8 text-white">
+      <div className="mb-6">
+        <Link href={`/events/${eventId}`} className="text-sm text-gray-300 hover:underline">
+          ← Back to event
+        </Link>
+      </div>
+      <EditForm event={event} />
+    </div>
+  );
 }

@@ -39,36 +39,36 @@ export default async function EventDetailsPage({
   return (
     <div className="max-w-3xl mx-auto p-8 text-white">
       <div className="mb-6">
-        <Link href="/events" className="text-blue-400 hover:underline">
-          &larr; Back to all events
+        <Link href="/events" className="text-sm text-gray-300 hover:underline">
+          ← Back to events
         </Link>
       </div>
 
-      <div className="bg-white text-black p-8 rounded-lg shadow-lg">
-        <h1 className="text-4xl font-bold mb-4">{event.title}</h1>
+      <div className="bg-gray-800 text-white p-8 rounded-lg shadow-lg border border-gray-700">
+        <h1 className="text-4xl font-bold mb-6">{event.title}</h1>
         
-        <div className="flex flex-wrap gap-4 text-sm font-semibold text-gray-600 mb-6 bg-gray-100 p-4 rounded">
-          <p>📍 Venue: {event.venue}</p>
-          <p>📅 Date: {new Date(event.date).toLocaleString()}</p>
-          <p>💰 Ticket Price: ${event.ticketPrice.toFixed(2)}</p>
+        <div className="space-y-4 mb-8 text-sm text-gray-300">
+          <p>📍 <strong>Venue:</strong> {event.venue}</p>
+          <p>📅 <strong>Date:</strong> {new Date(event.date).toLocaleString()}</p>
+          <p>💰 <strong>Ticket Price:</strong> ${event.ticketPrice.toFixed(2)}</p>
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-bold mb-2">About this event</h2>
-          <p className="text-gray-700 whitespace-pre-wrap">{event.description}</p>
+          <h2 className="text-xl font-bold mb-3">About this event</h2>
+          <p className="text-gray-300 whitespace-pre-wrap leading-relaxed">{event.description}</p>
         </div>
 
-        <div className="text-sm text-gray-500 mb-8 border-t pt-4">
-          <p>Organized by: {event.creator.name || event.creator.email}</p>
+        <div className="text-sm text-gray-400 border-t border-gray-600 pt-6 mb-8">
+          <p>Organized by: <strong>{event.creator.name || event.creator.email}</strong></p>
           <p>Created on: {new Date(event.createdAt).toLocaleDateString()}</p>
         </div>
 
         {/* Display action buttons only if the user is the owner */}
         {isOwner && (
-          <div className="flex gap-4 border-t pt-6">
+          <div className="flex gap-4 border-t border-gray-600 pt-6">
             <Link 
               href={`/events/${event.id}/edit`}
-              className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
+              className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded font-semibold transition"
             >
               Edit Event
             </Link>

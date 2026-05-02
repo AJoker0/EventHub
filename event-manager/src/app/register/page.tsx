@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -43,7 +44,10 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-screen items-center justify-center p-24">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8 text-black">
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        <Link href="/" className="text-xs text-gray-500 hover:underline">
+          ← Back
+        </Link>
+        <h2 className="text-2xl font-bold mb-6 text-center mt-4">Register</h2>
         
         {/* Error message block */}
         {error && (

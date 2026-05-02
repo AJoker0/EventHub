@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function CreateEventPage() {
   const router = useRouter();
@@ -40,7 +41,10 @@ export default function CreateEventPage() {
 
   return (
     <div className="max-w-2xl mx-auto p-8 text-white">
-      <h1 className="text-3xl font-bold mb-6">Create New Event</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold">Create New Event</h1>
+        <Link href="/events" className="text-sm text-gray-300 hover:underline">← Back to events</Link>
+      </div>
 
       {/* Error message display */}
       {error && (
