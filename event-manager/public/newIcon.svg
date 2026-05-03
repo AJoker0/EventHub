@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="100%" height="100%">
+  <!-- Icon Base (Calendar/Ticket hybrid) -->
+  <rect x="20" y="20" width="60" height="60" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="4"/>
+  <line x1="20" y1="45" x2="80" y2="45" stroke="#3b82f6" stroke-width="4" stroke-dasharray="6 4"/>
+  <circle cx="35" cy="65" r="6" fill="#10b981"/>
+  <circle cx="52" cy="65" r="6" fill="#3b82f6"/>
+  <circle cx="69" cy="65" r="6" fill="#f59e0b"/>
+  
+  <!-- Text -->
+  <text x="100" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="800" fill="#ffffff">
+    Event<tspan fill="#3b82f6">Hub</tspan>
+  </text>
+</svg>

@@ -114,3 +114,25 @@ npx prisma migrate reset # Reset database
 ![Details](screenshots/details.png)
 ![Edit](screenshots/edit.png)
 ![Stakeholders](screenshots/stakeholders.png)
+
+
+
+
+## Development Log & Problem Solving
+
+**Overview:**
+Building this full-stack Event Manager involved connecting a Next.js (App Router) frontend with a Prisma/SQLite backend and securing it with NextAuth.js. 
+
+**Key Steps & Challenges Solved:**
+
+**database Connection (Prisma + Fast Refresh):** 
+   During early development, I encountered an issue where Next.js Fast Refresh would constantly create new instances of the Prisma Client, quickly exhausting the database connection limit. I solved this by implementing a singleton pattern for the Prisma client in `src/lib/prisma.ts` using `globalThis`, ensuring only one instance runs during development.
+
+ **Authentication Flow & Security:** 
+   I integrated NextAuth.js with a custom credentials provider. A key challenge was ensuring data security. I solved this by implementing `bcryptjs` in the `/api/register` route to hash passwords before saving them to the sqlite database and strictly validating email format on both the client and server sides.
+
+**Enforcing the Ownership Rule:** 
+   the assignment required that users can only edit or delete their own events.initially, I just create "Edit/Delete" buttons on the frontend. However, I realized this wasn't secure, as API endpoints could still be accessed directly. I fixed this by adding strict server-side validation in the `DELETE` and `PATCH` routes, comparing the active `session.user.id` against the `event.creatorId` from the database.
+
+**UX and route protection:** 
+   To prevent unauthenticated users from accessing protected pages like `/events/create`, I implemented a Next.js middleware. Additionally, to improve UX during data fetching, I utilized React Suspense by creating a `loading.tsx` file with skeleton loaders, keeping the server-side rendering architecture intact while preventing UI freezes.

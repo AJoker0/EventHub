@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "EventHub",
   description: "Event management app",
+  icons: {
+    icon: { url: "/newIcon.svg", type: "image/svg+xml" },
+  },
 };
 
 export default async function RootLayout({
