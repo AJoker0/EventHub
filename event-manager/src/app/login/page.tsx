@@ -15,7 +15,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    //  NextAuth to sign in
+    // sign in via nextauth
     const result = await signIn("credentials", {
       redirect: false,
       email: formData.email,
@@ -23,10 +23,10 @@ export default function LoginPage() {
     });
 
     if (result?.error) {
-      // Show error for invalid login 
+      // show error for invalid login
       setError(result.error);
     } else {
-      // Redirect authenticated users to home page
+      // redirect after sign-in
       router.push("/");
       router.refresh();
     }

@@ -102,3 +102,15 @@ npx prisma migrate reset # Reset database
 - All passwords are hashed, never stored plain-text
 - Users can only see events they created in full edit/delete mode
 - Validation is done on both frontend and backend
+
+## Screenshots
+
+![Register](screenshots/register.png)
+![Login](screenshots/login.png)
+![Home-1](screenshots/home-1.png)
+![Home-2](screenshots/home-2.png)
+![List](screenshots/list.png)
+![Create](screenshots/create.png)
+![Details](screenshots/details.png)
+![Edit](screenshots/edit.png)
+![Stakeholders](screenshots/stakeholders.png)

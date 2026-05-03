@@ -8,23 +8,23 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, email, password } = body;
 
-    // 1. Check for empty fields
+    // check required fields
     if (!email || !password || !name) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
-    // 2. Validate email format
+    // validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json({ error: "Invalid email address format" }, { status: 400 });
     }
 
-    // 3. Validate password minimum requirements
+    // validate password length
     if (password.length < 6) {
       return NextResponse.json({ error: "Password must be at least 6 characters long" }, { status: 400 });
     }
 
-    // 4. Prevent duplicate emails
+    // block duplicate emails
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email is already registered" }, { status: 400 });
     }
 
-    // 5. Hash password and save
+    // hash password and save
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await prisma.user.create({
       data: { name, email, password: hashedPassword },

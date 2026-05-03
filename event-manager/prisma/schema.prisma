@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,33 +7,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// user model required for authentication 
+// User accounts for authentication.
 model User {
   id        String   @id @default(uuid())
   name      String?
   email     String   @unique
-  password  String // store hashed password, no plain-text
-  events    Event[] // Relation: user can create multiple events
+  password  String // Hashed password only.
+  events    Event[] // One user can create many events.
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-// main entity model based on the "Event Manager" theme
+// Event domain model.
 model Event {
   id          String @id @default(uuid())
   title       String
   description String
 
-  // custom fields specific to the Event theme
+  // Event details.
   date        DateTime
   venue       String
   ticketPrice Float
 
-  // relation: every  event belongs to the user who created it
+  // Creator relationship.
   creatorId String
   creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)
 
-  // mandatory  tracking fields
+  // Timestamps.
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

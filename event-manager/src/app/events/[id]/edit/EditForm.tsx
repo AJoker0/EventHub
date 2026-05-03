@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-// Define the shape of the props we expect
+// expected props shape
 type EventData = {
   id: string;
   title: string;
@@ -17,7 +17,7 @@ type EventData = {
 export default function EditForm({ event }: { event: EventData }) {
   const router = useRouter();
   
-  // Format the date to fit the datetime-local input type
+  // format date for the datetime-local input
   const formattedDate = new Date(event.date).toISOString().slice(0, 16);
 
   const [formData, setFormData] = useState({

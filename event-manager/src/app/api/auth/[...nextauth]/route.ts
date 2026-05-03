@@ -17,7 +17,9 @@ const handler = NextAuth({
                     throw new Error("Missing email or password");
                 }
 
-                // find user in database
+                // note: throwing here returns a credentials error to the client
+
+                // find the user in the database
                 const user = await prisma.user.findUnique({
                     where: { email: credentials.email }
                 });
@@ -32,7 +34,7 @@ const handler = NextAuth({
                     throw new Error("Invalid login credentials");
                 }
 
-                //return user object to save in session
+                // return user data for the session
                 return {
                     id: user.id,
                     email: user.email,

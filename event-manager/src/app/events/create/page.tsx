@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function CreateEventPage() {
   const router = useRouter();
   
-  // State to hold form data including our custom fields
+  // hold form data
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -22,7 +22,7 @@ export default function CreateEventPage() {
     e.preventDefault();
     setError("");
 
-    // Send data to our new API route
+    // send data to the api
     const res = await fetch("/api/events", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -30,7 +30,7 @@ export default function CreateEventPage() {
     });
 
     if (res.ok) {
-      // Redirect to the List page after successful creation
+      // redirect to the list after success
       router.push("/events"); 
       router.refresh();
     } else {
@@ -46,7 +46,7 @@ export default function CreateEventPage() {
         <Link href="/events" className="text-sm text-gray-300 hover:underline">← Back to events</Link>
       </div>
 
-      {/* Error message display */}
+      {/* error message display */}
       {error && (
         <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
           {error}

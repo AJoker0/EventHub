@@ -9,7 +9,7 @@ export default function DeleteButton({ eventId }: { eventId: string }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
-    // Safe delete action confirmation
+    // confirm before delete
     if (!confirm("Are you sure you want to delete this event?")) return;
 
     setIsDeleting(true);
@@ -19,7 +19,7 @@ export default function DeleteButton({ eventId }: { eventId: string }) {
 
     if (res.ok) {
       router.push("/events");
-      router.refresh(); // Refresh the list page
+      router.refresh(); // refresh the list page
     } else {
       alert("Failed to delete the event.");
       setIsDeleting(false);

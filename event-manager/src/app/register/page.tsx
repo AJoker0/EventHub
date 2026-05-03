@@ -12,9 +12,9 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError(""); // clear previous errors
 
-    // --- NEW: Strict Frontend Validation ---
+    // client-side validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setError("Please enter a valid email address format.");
@@ -25,7 +25,7 @@ export default function RegisterPage() {
       setError("Password must be at least 6 characters long.");
       return;
     }
-    // ---------------------------------------
+    // end client-side validation
 
     const res = await fetch("/api/register", {
       method: "POST",
@@ -49,7 +49,7 @@ export default function RegisterPage() {
         </Link>
         <h2 className="text-2xl font-bold mb-6 text-center mt-4">Register</h2>
         
-        {/* Error message block */}
+        {/* error message block */}
         {error && (
           <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm text-center">
             {error}

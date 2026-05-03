@@ -13,7 +13,7 @@ export default async function EditEventPage({
   const resolvedParams = await params;
   const eventId = resolvedParams.id;
 
-  // 1. Fetch the event
+  // fetch the event
   const event = await prisma.event.findUnique({
     where: { id: eventId },
   });
@@ -22,7 +22,7 @@ export default async function EditEventPage({
     notFound();
   }
 
-  // 2. Check authorization
+  // check auth
   const session = await getServerSession();
   if (!session || !session.user?.email) {
     redirect("/login");
@@ -32,7 +32,7 @@ export default async function EditEventPage({
     where: { email: session.user.email },
   });
 
-  // 3. Prevent non-owners from accessing the edit page
+  // block non-owners
   if (event.creatorId !== user?.id) {
     return (
       <div className="p-8 text-center text-red-500">
@@ -42,7 +42,7 @@ export default async function EditEventPage({
     );
   }
 
-  // 4. Pass the data to our client form component
+  // pass data to the client form
   return (
     <div className="max-w-2xl mx-auto p-8 text-white">
       <div className="mb-6">

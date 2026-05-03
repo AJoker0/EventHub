@@ -8,11 +8,11 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> } // Updated to Promise
 ) {
   try {
-    // Await params
+    // resolve route params
     const resolvedParams = await params;
     const eventId = resolvedParams.id;
 
-    // Check authentication
+    // ensure the user is logged in
     const session = await getServerSession();
     if (!session || !session.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -22,7 +22,7 @@ export async function DELETE(
       where: { email: session.user.email },
     });
 
-    // Find the event
+    // load the event
     const event = await prisma.event.findUnique({
       where: { id: eventId },
     });
@@ -31,7 +31,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
 
-    // OWNERSHIP RULE: Check if the logged-in user is the creator
+    // only the creator can delete
     if (event.creatorId !== user.id) {
       return NextResponse.json(
         { error: "Forbidden: You can only delete your own events" },
@@ -39,14 +39,16 @@ export async function DELETE(
       );
     }
 
-    // Delete the record from the database
+    // note: delete is blocked for non-owners even if they know the id
+
+    // delete the event
     await prisma.event.delete({
       where: { id: eventId },
     });
 
     return NextResponse.json({ message: "Event deleted successfully" }, { status: 200 });
   } catch (error) {
-    console.error("🔥 DELETE ERROR:", error);
+    console.error("DELETE ERROR:", error);
     return NextResponse.json({ error: "Failed to delete event" }, { status: 500 });
   }
 }
@@ -59,7 +61,7 @@ export async function PATCH(
     const resolvedParams = await params;
     const eventId = resolvedParams.id;
 
-    // 1. Check authentication
+    // ensure the user is logged in
     const session = await getServerSession();
     if (!session || !session.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -77,7 +79,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
 
-    // 2. OWNERSHIP RULE: Only creator can edit
+    // only the creator can edit
     if (event.creatorId !== user.id) {
       return NextResponse.json(
         { error: "Forbidden: You can only edit your own events" },
@@ -85,7 +87,9 @@ export async function PATCH(
       );
     }
 
-    // 3. Parse and validate new data
+    // note: update is blocked for non-owners even if they know the id
+
+    // parse and validate incoming data
     const body = await request.json();
     const { title, description, date, venue, ticketPrice } = body;
 
@@ -93,7 +97,7 @@ export async function PATCH(
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
-    // 4. Update the record in Prisma
+    // update the event
     const updatedEvent = await prisma.event.update({
       where: { id: eventId },
       data: {
@@ -107,7 +111,7 @@ export async function PATCH(
 
     return NextResponse.json(updatedEvent, { status: 200 });
   } catch (error) {
-    console.error("🔥 UPDATE ERROR:", error);
+    console.error("UPDATE ERROR:", error);
     return NextResponse.json({ error: "Failed to update event" }, { status: 500 });
   }
 }

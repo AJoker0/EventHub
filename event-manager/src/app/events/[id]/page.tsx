@@ -8,23 +8,23 @@ import DeleteButton from "./DeleteButton";
 export default async function EventDetailsPage({
   params,
 }: {
-  params: Promise<{ id: string }>; // Updated to Promise
+  params: Promise<{ id: string }>; // uses promise params in next 16
 }) {
-  // Await the params to get the ID correctly in the new Next.js version
+  // resolve params to get the id
   const resolvedParams = await params;
   const eventId = resolvedParams.id;
 
-  // Fetch the single record from database using the resolved ID
+  // fetch the event
   const event = await prisma.event.findUnique({
     where: { id: eventId },
-    include: { creator: true }, // Include creator details
+    include: { creator: true }, // include creator details
   });
 
   if (!event) {
     notFound(); 
   }
 
-  // Get current session to check ownership
+  // check ownership
   const session = await getServerSession();
   let isOwner = false;
 
@@ -32,7 +32,7 @@ export default async function EventDetailsPage({
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
     });
-    // Check if the current user created this specific event
+    // note: ownership is determined by matching creatorId to the current user
     isOwner = user?.id === event.creatorId;
   }
 
@@ -63,7 +63,7 @@ export default async function EventDetailsPage({
           <p>Created on: {new Date(event.createdAt).toLocaleDateString()}</p>
         </div>
 
-        {/* Display action buttons only if the user is the owner */}
+        {/* show actions only for the owner */}
         {isOwner && (
           <div className="flex gap-4 border-t border-gray-600 pt-6">
             <Link 

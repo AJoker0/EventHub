@@ -3,10 +3,10 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
 export default async function EventsListPage() {
-  // Fetch all events from the database using Prisma (Requirement: Read/List)
+  // fetch events from the database
   const events = await prisma.event.findMany({
     orderBy: {
-      createdAt: 'desc' // Show newest events first
+      createdAt: 'desc' // newest first
     }
   });
 
@@ -25,7 +25,7 @@ export default async function EventsListPage() {
         </Link>
       </div>
 
-      {/* Show message if database is empty */}
+      {/* empty state */}
       {events.length === 0 ? (
         <div className="bg-gray-800 p-12 rounded-lg text-center text-gray-300">
           <p className="text-lg mb-4">No events found yet.</p>
@@ -34,7 +34,7 @@ export default async function EventsListPage() {
           </Link>
         </div>
       ) : (
-        // Display all items in a clear layout grid
+        // render the grid
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.map((event) => (
             <div key={event.id} className="bg-gray-800 hover:bg-gray-750 p-6 rounded-lg shadow-md text-white flex flex-col justify-between transition-colors border border-gray-700">
@@ -49,7 +49,7 @@ export default async function EventsListPage() {
                 </div>
               </div>
 
-              {/* Link to the Details page (Dynamic Route) */}
+              {/* link to details */}
               <Link 
                 href={`/events/${event.id}`}
                 className="inline-block text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded font-semibold transition"
